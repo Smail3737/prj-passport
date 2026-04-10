@@ -1,0 +1,31 @@
+{
+  "name": "project-passport-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "VITE_API_BASE_URL=http://127.0.0.1:8787 vite --port 5174 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 5174 --strictPort",
+    "lint": "eslint --ext .ts,.tsx src"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-import": "^2.32.0",
+    "typescript": "~4.5.4",
+    "vite": "^5.4.21"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/material": "^7.3.9",
+    "docx": "^9.6.1",
+    "jspdf": "^4.2.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}

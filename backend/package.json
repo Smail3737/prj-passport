@@ -1,0 +1,23 @@
+{
+  "name": "project-passport-backend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "predev": "npm run prisma:generate",
+    "dev": "node server/ai-api-server.mjs",
+    "serve:web": "WEB_DIST_DIR=../frontend/dist node server/web-app-server.mjs",
+    "pretest": "npm run prisma:generate",
+    "test": "node --test server/tests/*.test.mjs",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.15.0"
+  }
+}

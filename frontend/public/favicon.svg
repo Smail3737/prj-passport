@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Project Passport favicon">
+  <path fill="#2f303f" d="M34 14h94c57 0 99 38 99 90 0 52-42 90-99 90H96v48H34V14z"/>
+  <path fill="#ffffff" d="M86 48h42c40 0 67 24 67 56s-27 56-67 56h-10v72H86V48z"/>
+  <path fill="#50b1a2" d="M96 58h32c31 0 52 18 52 46s-21 46-52 46h-20v82H96V58z"/>
+
+  <rect x="112" y="58" width="10" height="174" fill="#2f303f" opacity="0.55"/>
+  <rect x="96" y="78" width="84" height="8" fill="#2f303f" opacity="0.55"/>
+  <rect x="96" y="122" width="84" height="8" fill="#2f303f" opacity="0.55"/>
+  <rect x="96" y="158" width="32" height="8" fill="#2f303f" opacity="0.55"/>
+  <rect x="96" y="192" width="32" height="8" fill="#2f303f" opacity="0.55"/>
+
+  <circle cx="141" cy="104" r="22" fill="#ffffff"/>
+  <path d="M141 82a22 22 0 0 1 0 44" fill="none" stroke="#2f303f" stroke-width="8" opacity="0.55"/>
+</svg>
