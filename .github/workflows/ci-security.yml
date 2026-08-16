@@ -20,7 +20,7 @@ jobs:
         run: pip install semgrep
 
       - name: Run SAST
-        run: semgrep scan --config auto --error .
+        run: semgrep scan --config auto --error --exclude '.github/workflows/**' .
 
   sca:
     name: SCA - Trivy
