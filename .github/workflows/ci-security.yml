@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   sast:
@@ -71,3 +72,33 @@ jobs:
           fi
 
           echo "Secret injected successfully"
+
+  aws-secret-test:
+    name: AWS OIDC + Secrets Manager
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v6.2.3
+        with:
+          role-to-assume: arn:aws:iam::658606185886:role/GitHubActionsReadDemoSecret
+          aws-region: eu-north-1
+
+      - name: Check AWS identity
+        run: aws sts get-caller-identity
+
+      - name: Read secret from Secrets Manager
+        run: |
+          SECRET=$(aws secretsmanager get-secret-value \
+            --secret-id dev/demo/api-token \
+            --query SecretString \
+            --output text)
+
+          if [ -z "$SECRET" ]; then
+            echo "Secret is missing"
+            exit 1
+          fi
+
+          echo "AWS secret retrieved successfully"
