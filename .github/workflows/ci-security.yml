@@ -167,3 +167,70 @@ jobs:
           name: sbom-cyclonedx
           path: sbom.cdx.json
           retention-days: 30
+
+  backup-restore-test:
+    name: Backup Restore Test
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    permissions:
+      contents: read
+      id-token: write
+
+    env:
+      BUCKET: devsecops-backup-lab-658606185886
+      KEY: restore-test-${{ github.run_id }}.txt
+
+    steps:
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v6.2.3
+        with:
+          role-to-assume: arn:aws:iam::658606185886:role/GitHubActionsBackupRestoreTest
+          aws-region: eu-north-1
+
+      - name: Upload Version 1
+        run: |
+          echo "Version 1" > backup.txt
+          aws s3 cp backup.txt s3://$BUCKET/$KEY
+
+      - name: Upload Version 2
+        run: |
+          echo "Version 2" > backup.txt
+          aws s3 cp backup.txt s3://$BUCKET/$KEY
+
+      - name: Simulate accidental deletion
+        run: |
+          DELETE_MARKER_VERSION=$(aws s3api delete-object \
+            --bucket "$BUCKET" \
+            --key "$KEY" \
+            --query VersionId \
+            --output text)
+
+          if [ -z "$DELETE_MARKER_VERSION" ] || [ "$DELETE_MARKER_VERSION" = "None" ]; then
+            echo "Delete marker was not created"
+            exit 1
+          fi
+
+          echo "Delete marker created: $DELETE_MARKER_VERSION"
+          echo "DELETE_MARKER_VERSION=$DELETE_MARKER_VERSION" >> "$GITHUB_ENV"
+
+      - name: Restore object
+        run: |
+          aws s3api delete-object \
+            --bucket "$BUCKET" \
+            --key "$KEY" \
+            --version-id "$DELETE_MARKER_VERSION"
+
+          echo "Delete marker removed"
+
+      - name: Verify restored backup
+        run: |
+          aws s3 cp s3://$BUCKET/$KEY restored.txt
+
+          if grep -qx "Version 2" restored.txt; then
+            echo "RESTORE TEST PASSED"
+          else
+            echo "RESTORE TEST FAILED"
+            exit 1
+          fi
