@@ -160,3 +160,10 @@ jobs:
           test -f sbom.cdx.json
           echo "SBOM generated successfully"
           head -n 30 sbom.cdx.json
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-cyclonedx
+          path: sbom.cdx.json
+          retention-days: 30
