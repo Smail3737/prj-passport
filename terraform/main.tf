@@ -2,11 +2,13 @@ terraform {
   required_version = ">= 1.5.0"
 }
 
-variable "environment" {
-  type    = string
-  default = "dev"
-}
+resource "aws_security_group" "demo" {
+  name = "demo-security-group"
 
-output "environment" {
-  value = var.environment
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
