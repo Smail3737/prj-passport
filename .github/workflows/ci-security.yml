@@ -138,3 +138,25 @@ jobs:
           conftest test terraform/main.tf \
             --policy policy \
             --parser hcl2
+
+  sbom:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate SBOM
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: cyclonedx
+          output: sbom.cdx.json
+
+      - name: Check SBOM
+        run: |
+          test -f sbom.cdx.json
+          echo "SBOM generated successfully"
+          head -n 30 sbom.cdx.json
