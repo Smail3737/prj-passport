@@ -2,7 +2,8 @@ package main
 
 deny contains msg if {
   some name
-  some rule in input.resource.aws_security_group[name].ingress
+  some sg in input.resource.aws_security_group[name]
+  some rule in sg.ingress
 
   rule.from_port == 22
   rule.to_port == 22
